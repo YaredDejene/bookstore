@@ -6,6 +6,7 @@ namespace BookStore.Domain.Commands.Validations
         {   
             ValidateTitle();
             ValidateDescription();
+            ValidateAuthors();
         }
     }
 }
