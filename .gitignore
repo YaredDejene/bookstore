@@ -2,3 +2,5 @@ src/BookStore.Domain/obj/*
 src/BookStore.Domain/bin/*
 src/BookStore.Domain.Core/obj/*
 src/BookStore.Domain.Core/bin/*
+src/BookStore.Infrastructure.Data/obj/*
+src/BookStore.Infrastructure.Data/bin/*
