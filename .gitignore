@@ -1,2 +1,4 @@
+src/BookStore.Domain/obj/*
+src/BookStore.Domain/bin/*
 src/BookStore.Domain.Core/obj/*
 src/BookStore.Domain.Core/bin/*
