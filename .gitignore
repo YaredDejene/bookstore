@@ -6,5 +6,11 @@ src/BookStore.Infrastructure.Data/obj/*
 src/BookStore.Infrastructure.Data/bin/*
 src/BookStore.Infrastructure.Identity/obj/*
 src/BookStore.Infrastructure.Identity/bin/*
+src/BookStore.Infrastructure.Bus/obj/*
+src/BookStore.Infrastructure.Bus/bin/*
+src/BookStore.Infrastructure.IoC/obj/*
+src/BookStore.Infrastructure.IoC/bin/*
 src/BookStore.Application/obj/*
 src/BookStore.Application/bin/*
+src/BookStore.API/obj/*
+src/BookStore.API/bin/*

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.1" />
+
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+		<ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
+		<ProjectReference Include="..\BookStore.Infrastructure.Bus\BookStore.Infrastructure.Bus.csproj" />
+		<ProjectReference Include="..\BookStore.Infrastructure.Identity\BookStore.Infrastructure.Identity.csproj" />
+		<ProjectReference Include="..\BookStore.Infrastructure.IoC\BookStore.Infrastructure.IoC.csproj" />
+	</ItemGroup>
+
+</Project>
