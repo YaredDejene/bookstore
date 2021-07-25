@@ -4,3 +4,5 @@ src/BookStore.Domain.Core/obj/*
 src/BookStore.Domain.Core/bin/*
 src/BookStore.Infrastructure.Data/obj/*
 src/BookStore.Infrastructure.Data/bin/*
+src/BookStore.Infrastructure.Identity/obj/*
+src/BookStore.Infrastructure.Identity/bin/*

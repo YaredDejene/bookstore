@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<ProjectReference Include="..\BookStore.Domain\BookStore.Domain.csproj" />
+	</ItemGroup>
+
+  <ItemGroup>
+		<PackageReference Include="Npgsql" Version="5.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
+		<PackageReference Include="NetDevPack.Identity" Version="1.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5" />
+	</ItemGroup>
+
+</Project>
