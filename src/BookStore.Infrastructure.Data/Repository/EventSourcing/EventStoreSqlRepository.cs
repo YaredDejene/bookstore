@@ -18,7 +18,7 @@ namespace BookStore.Infrastructure.Data.Repository.EventSourcing
         }
         public async Task<IList<StoredEvent>> All(Guid aggregateId)
         {
-            return await (from e in _context.StoredEvents where e.AggregateId == aggregateId select e).ToListAsync();
+            return await _context.StoredEvents.Where(s => s.AggregateId == aggregateId).ToListAsync();
         }
 
         public void Store(StoredEvent theEvent)
