@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace BookStore.API.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class ApiController : ControllerBase
     {
         private readonly ICollection<string> _errors = new List<string>();

@@ -7,11 +7,9 @@ using BookStore.Application.Interfaces;
 using BookStore.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NetDevPack.Identity.Authorization;
 
 namespace BookStore.API.Controllers
 {
-    //[Authorize]
     public class BookController : ApiController
     {
         private readonly IBookService _bookService;
@@ -21,6 +19,7 @@ namespace BookStore.API.Controllers
             _bookService = bookService ?? throw new ArgumentNullException(nameof(bookService));
         }
 
+        [HttpGet]
         public async Task<IEnumerable<BookModel>> Get()
         {
             return await _bookService.GetAll();
@@ -32,21 +31,18 @@ namespace BookStore.API.Controllers
             return await _bookService.GetById(id);
         }
 
-        [CustomAuthorize("Books", "Write")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookModel bookModel)
         {
             return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Register(bookModel));
         }
 
-        [CustomAuthorize("Books", "Write")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BookModel bookModel)
         {
             return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Update(bookModel));
         }
 
-        [CustomAuthorize("Books", "Remove")]
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {

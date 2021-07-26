@@ -9,9 +9,9 @@ using BookStore.Infrastructure.Data.Context;
 using BookStore.Infrastructure.Data.EventSourcing;
 using BookStore.Infrastructure.Data.Repository;
 using BookStore.Infrastructure.Data.Repository.EventSourcing;
+using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using NetDevPack.Mediator;
 
 namespace BookStore.Infrastructure.IoC

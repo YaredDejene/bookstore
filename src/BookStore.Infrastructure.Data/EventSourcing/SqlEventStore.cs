@@ -1,5 +1,4 @@
 using System;
-using NetDevPack.Identity.User;
 using NetDevPack.Messaging;
 using Newtonsoft.Json;
 using BookStore.Domain.Core.Events;
@@ -10,12 +9,10 @@ namespace BookStore.Infrastructure.Data.EventSourcing
     public class SqlEventStore : IEventStore
     {
         private readonly IEventStoreSqlRepository _eventStoreSqlRepository;
-        private readonly IAspNetUser _user;
 
-        public SqlEventStore(IEventStoreSqlRepository eventStoreSqlRepository, IAspNetUser user)
+        public SqlEventStore(IEventStoreSqlRepository eventStoreSqlRepository)
         {
             _eventStoreSqlRepository = eventStoreSqlRepository ?? throw new ArgumentNullException(nameof(eventStoreSqlRepository));
-            _user = user;
         }
 
         public void Save<T> (T theEvent) where T : Event 
@@ -25,7 +22,7 @@ namespace BookStore.Infrastructure.Data.EventSourcing
             var storedEvent = new StoredEvent(
                 theEvent,
                 serializedData,
-                _user.Name ?? _user.GetUserEmail());
+                Guid.NewGuid().ToString()); // Random Id for user
 
             _eventStoreSqlRepository.Store(storedEvent);
         }

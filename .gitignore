@@ -4,8 +4,6 @@ src/BookStore.Domain.Core/obj/*
 src/BookStore.Domain.Core/bin/*
 src/BookStore.Infrastructure.Data/obj/*
 src/BookStore.Infrastructure.Data/bin/*
-src/BookStore.Infrastructure.Identity/obj/*
-src/BookStore.Infrastructure.Identity/bin/*
 src/BookStore.Infrastructure.Bus/obj/*
 src/BookStore.Infrastructure.Bus/bin/*
 src/BookStore.Infrastructure.IoC/obj/*

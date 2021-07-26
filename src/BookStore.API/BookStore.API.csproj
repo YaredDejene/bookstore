@@ -23,7 +23,6 @@
   <ItemGroup>
 		<ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
 		<ProjectReference Include="..\BookStore.Infrastructure.Bus\BookStore.Infrastructure.Bus.csproj" />
-		<ProjectReference Include="..\BookStore.Infrastructure.Identity\BookStore.Infrastructure.Identity.csproj" />
 		<ProjectReference Include="..\BookStore.Infrastructure.IoC\BookStore.Infrastructure.IoC.csproj" />
 	</ItemGroup>
 
