@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { BookHistoryModel } from "../models/book-history.model";
 import { BookModel } from "../models/book.model";
 import { Page, PageRequest } from "../models/pagination.model";
 import { ApiService } from "./api.service";
@@ -18,8 +19,12 @@ import { ApiService } from "./api.service";
       return this.list(pageRequest);
     }
 
-    public listBooksDataTable(dataTableParameters: any): Observable<Page<BookModel>>{
-      return this.listDataTable(dataTableParameters, 'list');
+    public listBookDataTable(dataTableParameters: any, additionalParameters?: any): Observable<Page<BookModel>>{
+      return this.listDataTable(dataTableParameters, 'list', additionalParameters);
+    }
+
+    public listBookHistoryDataTable(dataTableParameters: any, additionalParameters?: any): Observable<Page<BookHistoryModel>>{
+      return this.listDataTable(dataTableParameters, 'history', additionalParameters);
     }
 
     public getBook(id: string): Observable<BookModel> {

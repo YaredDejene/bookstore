@@ -55,14 +55,15 @@ namespace BookStore.API.Controllers
         public async Task<IActionResult> List([FromBody] DataTableRequest request)
         {
             if (request == null) return BadRequest();
-
             return Ok( await _bookService.GetAll(request));
         }
 
-        [HttpGet("history/{id:guid}")]
-        public async Task<IActionResult> History(Guid id)
+        [HttpPost]
+        [Route("history")]
+        public async Task<IActionResult> History([FromBody] DataTableRequest request)
         {
-            return Ok( await _bookService.GetAllHistory(id));
+            if (request == null) return BadRequest();
+            return Ok( await _bookService.GetAllHistory(request));
         }
     }
 }

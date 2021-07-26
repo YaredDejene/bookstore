@@ -29,7 +29,7 @@ export class BookComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTableParameters: any, callback) => {
-        this.bookService.listBooksDataTable(dataTableParameters).subscribe(page => {
+        this.bookService.listBookDataTable(dataTableParameters).subscribe(page => {
           this.books = page.data;
           callback({
             recordsTotal: page.recordsTotal,
@@ -58,7 +58,7 @@ export class BookComponent implements OnInit {
   }
 
   public onRowClick(book: BookModel) {
-    this.router.navigate([`/detail/${book.id}`]);
+    this.router.navigate([`/history/${book.id}`]);
   }
 
   ngOnDestroy(): void {

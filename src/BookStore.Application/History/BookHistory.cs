@@ -10,7 +10,7 @@ namespace BookStore.Application.History
     {
         public static IList<BookHistoryData> HistoryData { get; set; }
 
-        public static IList<BookHistoryData> ToBookHistory(IList<StoredEvent> storedEvents)
+        public static IList<BookHistoryData> ToBookHistory(IEnumerable<StoredEvent> storedEvents)
         {
             HistoryData = new List<BookHistoryData>();
             BookHistoryDeserializer(storedEvents);

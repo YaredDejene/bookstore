@@ -18,6 +18,7 @@ namespace BookStore.Application.Interfaces
         Task<ValidationResult> Update(BookModel book);
         Task<ValidationResult> Remove(Guid id);
 
-        Task<IList<BookHistoryData>> GetAllHistory(Guid id);
+        Task<IEnumerable<BookHistoryData>> GetAllHistory(Guid id);
+        Task<DataTableResponse<BookHistoryData>> GetAllHistory(DataTableRequest request);
     }
 }

@@ -24,7 +24,8 @@ constructor(
           return this.http.get<Page<any>>(this.buildUrl(), { params: params });
     }
 
-    public listDataTable = (dataTableParameters: any, endpoint?:string) : Observable<Page<any>> => this.http.post<Page<any>>(this.buildUrl(null, endpoint), dataTableParameters, {});
+    public listDataTable = (dataTableParameters: any, endpoint?:string, additionalParameters?: any) : Observable<Page<any>> => 
+        this.http.post<Page<any>>(this.buildUrl(null, endpoint), Object.assign(dataTableParameters, additionalParameters) , {});
 
     public post = (entity: any): Observable<any> => this.http.post(this.buildUrl(), entity);
 

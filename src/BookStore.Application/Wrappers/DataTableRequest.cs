@@ -19,6 +19,8 @@ namespace BookStore.Application.Wrappers
 
         public IDictionary<string, object> AdditionalParameters { get; set; }
 
+        public string Data { get; set; }
+
         public string Sort => Order == null || Order.Count() == 0 ? null : 
                     Columns?.Take(Order.FirstOrDefault().Column + 1)?.LastOrDefault()?.Name;
         public bool IsDescending  => Order == null || Order.Count() == 0 ? false : (Order.FirstOrDefault().Dir == "desc");

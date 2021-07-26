@@ -12,6 +12,7 @@ using BookStore.Application.Helpers;
 using BookStore.Domain.Models;
 using BookStore.Domain.Commands;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Core.Events;
 using BookStore.Infrastructure.Data.Repository.EventSourcing;
 using FluentValidation.Results;
 using NetDevPack.Mediator;
@@ -79,9 +80,25 @@ namespace BookStore.Application.Services
             return await _mediator.SendCommand(removeCommand);
         }
 
-        public async Task<IList<BookHistoryData>> GetAllHistory(Guid id)
+        public async Task<IEnumerable<BookHistoryData>> GetAllHistory(Guid id)
         {
             return BookHistory.ToBookHistory(await _eventStoreRepository.All(id));
+        }
+        public async Task<DataTableResponse<BookHistoryData>> GetAllHistory(DataTableRequest request)
+        {
+            if(request.Data == null ) return null;
+
+            var aggregateId = new System.Guid(request.Data);
+            string search = request.Search?.Value?.ToLower();
+            
+            Expression<Func<StoredEvent, bool>> expression = (m => m.AggregateId == aggregateId && (m.Data.ToLower().Contains(search) || m.MessageType.ToLower().Contains(search)));
+            Func<IQueryable<StoredEvent>, IOrderedQueryable<StoredEvent>> orderBy = null;
+
+            var totalRecords = string.IsNullOrEmpty(search) ? await _eventStoreRepository.Count() : await _eventStoreRepository.Count(expression);
+            var historyData = BookHistory.ToBookHistory(await _eventStoreRepository.All(request.Start, request.Length, expression, orderBy));
+
+            var response = new DataTableResponse<BookHistoryData>(request.Draw, totalRecords, totalRecords, historyData.ToList(), null);
+            return response;
         }
 
 
