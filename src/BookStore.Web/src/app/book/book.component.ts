@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -16,12 +17,9 @@ export class BookComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   public dtOptions: any = {};
 
-  constructor(
-    private router: Router,
-    private bookService: BookService) { }
+  constructor(private router: Router, private bookService: BookService, private datePipe: DatePipe) { }
 
   public books: Array<BookModel>;
-
 
   ngOnInit(): void {
 
@@ -43,7 +41,7 @@ export class BookComponent implements OnInit {
       columns: [
         { data: "title", name: "Title" },
         { data: "description", name: "Description" },
-        { data: "publishDate", name: "Publish Date", searchable: false },
+        { data: "publishDate", name: "Publish Date", searchable: false, ngPipeInstance : this.datePipe },
         { data: "authors", name: "Authors", sortable: true, searchable: false },
       ],
       dom: '<fB<t>ip>',

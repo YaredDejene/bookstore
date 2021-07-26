@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookStore.Application.History;
 using BookStore.Application.Interfaces;
 using BookStore.Application.Models;
+using BookStore.Application.Wrappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,39 +21,48 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BookModel>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _bookService.GetAll();
+            return Ok(await _bookService.GetAll());
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<BookModel> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return await _bookService.GetById(id);
+            return Ok(await _bookService.GetById(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookModel bookModel)
         {
-            return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Register(bookModel));
+            return Ok(!ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Register(bookModel)));
         }
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BookModel bookModel)
         {
-            return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Update(bookModel));
+            return Ok(!ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Update(bookModel)));
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Remove(id));
+            return Ok(!ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Remove(id)));
+        }
+
+        [HttpPost]
+        [Route("list")]
+        public async Task<IActionResult> List([FromBody] DataTableRequest request)
+        {
+            if (request == null) return BadRequest();
+
+            return Ok( await _bookService.GetAll(request));
         }
 
         [HttpGet("history/{id:guid}")]
-        public async Task<IEnumerable<BookHistoryData>> History(Guid id)
+        public async Task<IActionResult> History(Guid id)
         {
-            return await _bookService.GetAllHistory(id);
+            return Ok( await _bookService.GetAllHistory(id));
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 using BookStore.Domain.Interfaces;
 using BookStore.Domain.Models;
 using BookStore.Infrastructure.Data.Context;
@@ -28,7 +30,19 @@ namespace BookStore.Infrastructure.Data.Repository
 
         public async Task<IEnumerable<Book>> GetAll()
         {
-            return await _dbSet.ToListAsync();
+            return await GetQuery(null, null).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetAll(int start, int pageSize, Expression<Func<Book, bool>> filter = null, 
+                                                    Func<IQueryable<Book>, IOrderedQueryable<Book>> orderBy = null)
+        {
+            var query = GetQuery(filter, orderBy);
+            return await query.Skip(start).Take(pageSize).ToListAsync();
+        }
+
+        public async Task<int> Count(Expression<Func<Book, bool>> filter = null)
+        {
+            return await GetQuery(filter, null).CountAsync();
         }
 
         public async Task<Book> GetByTitle(string title)
@@ -50,10 +64,32 @@ namespace BookStore.Infrastructure.Data.Repository
         {
             _dbSet.Remove(book);
         }
-
+       
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        private IQueryable<Book> GetQuery(Expression<Func<Book, bool>> filter, Func<IQueryable<Book>, IOrderedQueryable<Book>> orderBy, params Expression<Func<Book, object>>[] includes)
+        {
+            var query = _dbSet.AsQueryable();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            return query;
         }
     }
 }
