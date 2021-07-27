@@ -96,7 +96,7 @@ namespace BookStore.Application.Services
             IQueryable<BookHistoryData> filteredData = historyData.AsQueryable();
             
             if(!string.IsNullOrEmpty(search)) {
-                Expression<Func<BookHistoryData, bool>> expression = ( m => (m.Action.ToLower().Contains(search) || m.Description.ToLower().Contains(search)));
+                Expression<Func<BookHistoryData, bool>> expression = ( m => (m.Action.ToLower().Contains(search) || m.ChangeText.ToLower().Contains(search)));
                 filteredData = filteredData.Where(expression);
             }
 
@@ -107,7 +107,7 @@ namespace BookStore.Application.Services
  
             var totalRecords = string.IsNullOrEmpty(search) ? historyData.Count() : filteredData.Count();
 
-            var response = new DataTableResponse<BookHistoryData>(request.Draw, totalRecords, totalRecords, filteredData.ToList(), null);
+            var response = new DataTableResponse<BookHistoryData>(request.Draw, totalRecords, totalRecords, filteredData.Skip(request.Start).Take(request.Length).ToList(), null);
             return response;
         }
 

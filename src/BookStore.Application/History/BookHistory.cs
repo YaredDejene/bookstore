@@ -17,22 +17,29 @@ namespace BookStore.Application.History
 
             var ordered = HistoryData.OrderBy(b => b.Timestamp);
             var list = new List<BookHistoryData>();
-            var latestHistoryData = new BookHistoryData();
+            BookHistoryData latestHistoryData = null;
 
             foreach(var ord in ordered)
             {
                 var bookHistoryData = new BookHistoryData
-                {
-                    Id = ord.Id == Guid.Empty.ToString() || ord.Id == latestHistoryData.Id ? string.Empty : ord.Id,
-                    Title = string.IsNullOrWhiteSpace(ord.Title) || ord.Title == latestHistoryData.Title ? string.Empty : ord.Title,
-                    Description = string.IsNullOrWhiteSpace(ord.Description) || ord.Description == latestHistoryData.Description ? string.Empty : ord.Description,
-                    PublishDate = string.IsNullOrWhiteSpace(ord.PublishDate) || ord.PublishDate == latestHistoryData.PublishDate ? string.Empty : ord.PublishDate.Substring(0,10),
-                    Authors = string.IsNullOrWhiteSpace(ord.Authors) || ord.Authors == latestHistoryData.Authors ? string.Empty : ord.Authors,
-
+                {                    
                     Action = string.IsNullOrWhiteSpace(ord.Action) ? string.Empty : ord.Action,
                     Timestamp = ord.Timestamp,
                     User = ord.User
                 };
+
+                if( latestHistoryData != null)
+                {
+                    bookHistoryData.Id = ( ord.Id == Guid.Empty.ToString() || ord.Id == latestHistoryData.Id) ? string.Empty : ord.Id;
+                    if(ord.Title != latestHistoryData.Title)
+                        bookHistoryData.Changes.Add($"Title was changed to \"{ord.Title}\"");
+                    if(ord.Description != latestHistoryData.Description)
+                        bookHistoryData.Changes.Add($"Description was changed to \"{ord.Description}\"");
+                    if(ord.PublishDate != latestHistoryData.PublishDate)
+                        bookHistoryData.Changes.Add($"Publish Date was changed to \"{ord.PublishDate.Substring(0,10)}\"");
+                    if(ord.Authors != latestHistoryData.Authors)
+                        bookHistoryData.Changes.Add($"Authors was changed to \"{ord.Authors}\"");
+                }
 
                 list.Add(bookHistoryData);
                 latestHistoryData = ord;

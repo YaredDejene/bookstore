@@ -93,7 +93,7 @@ export class BookDetailComponent implements OnInit {
   private getBookHistory(bookId: string): void {
     this.dtOptions = {
       pagingType: "simple_numbers",
-      pageLength: 20,
+      pageLength: 5,
       serverSide: true,
       processing: true,
       ajax: (dataTableParameters: any, callback) => {
@@ -108,12 +108,10 @@ export class BookDetailComponent implements OnInit {
       },
       columns: [
         { data: "action", name: "Action" },
-        { data: "description", name: "Description" },
-        { data: "timestamp", name: "Timestamp", searchable: false },
-        { data: "user", name: "User", sortable: true, searchable: false },
+        { data: "changeText", name: "Change" },
+        { data: "timestamp", name: "Timestamp", searchable: false }
       ],
-      dom: '<fB<t>ip>',
-      buttons: [ "print" ]
+      //dom: '<fB<t>ip>'
     };
   }
 
