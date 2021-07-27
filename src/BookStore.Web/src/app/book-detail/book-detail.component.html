@@ -3,7 +3,15 @@
     <div class="col-md-4">
       <div class="row bordered">
         <div class="col-md-12">
+          <button
+            class="btn btn-outline-primary btn-round pull-right"
+            (click)="backToList()"
+          >
+            Back to List
+          </button>
+
           <h5>Book Information</h5>
+
           <form [formGroup]="form">
             <div class="form-group">
               <label>Title</label>
@@ -33,8 +41,8 @@
               <input
                 type="date"
                 class="form-control"
-                [ngModel]="book.publishDate|date:'yyyy-MM-dd'"
-                (ngModelChange)=" book.publishDate = $event"
+                [ngModel]="book.publishDate | date: 'yyyy-MM-dd'"
+                (ngModelChange)="book.publishDate = $event"
                 formControlName="publishDate"
                 [ngClass]="{
                   'is-invalid': submitted && f.publishDate.errors
@@ -42,19 +50,19 @@
               />
             </div>
 
-            <div class="form-group">                 
+            <div class="form-group">
               <table class="table">
                 <thead>
                   <tr>
-                    <th style="width: 80%; font-weight: normal;">Author</th>
+                    <th style="width: 80%; font-weight: normal">Author</th>
                     <th style="width: 20%">
                       <button
-                      class="btn btn-primary btn-icon btn-sm pull-right"
-                      title="Add Author"
-                      (click)="addAuthor()"
-                    >
-                      <i class="fa fa-plus"></i>
-                    </button>
+                        class="btn btn-primary btn-icon btn-sm pull-right"
+                        title="Add Author"
+                        (click)="addAuthor()"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button>
                     </th>
                   </tr>
                 </thead>
@@ -70,12 +78,12 @@
                     </td>
                     <td>
                       <button
-                      class="btn btn-danger btn-icon btn-sm pull-right"
-                      title="Add Author"
-                      (click)="removeAuthor(author)"
-                    >
-                      <i class="fa fa-trash"></i>
-                    </button>
+                        class="btn btn-danger btn-icon btn-sm pull-right"
+                        title="Add Author"
+                        (click)="removeAuthor(author)"
+                      >
+                        <i class="fa fa-trash"></i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -83,43 +91,34 @@
             </div>
           </form>
         </div>
-        
+
         <div class="col-md-12">
-          <!-- <button            
-            class="btn btn-outline-primary btn-round"
-            (click)="clearForm()"
-          >
-            Clear
-          </button> -->
+          <button class="btn btn-outline-primary btn-round" (click)="addNew()">
+            Add New Book
+          </button>
 
           <button
             type="submit"
             class="btn btn-primary btn-round pull-right"
             (click)="onSubmit()"
           >
-            Save 
+            Save
           </button>
         </div>
       </div>
     </div>
     <div class="col-md-8">
       <div class="bordered">
-        <div class="table-responsive">
-          <h5>History</h5>
-          <table
-            datatable
-            class="table"
-            [dtOptions]="dtOptions"
-          >
-            <thead class="text-primary">
-              <tr>
-                <th>Action</th>
-                <th>Changes</th>
-                <th>Timestamp</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
+        <h5>History</h5>
+        <table datatable class="table" [dtOptions]="dtOptions">
+          <thead class="text-primary">
+            <tr>
+              <th>Action</th>
+              <th>Changes</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+        </table>
       </div>
     </div>
   </div>

@@ -24,7 +24,8 @@ export class BookComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: "simple_numbers",
-      pageLength: 20,
+      lengthMenu: [ 5, 10, 25, 50, 100 ],
+      pageLength: 25,
       serverSide: true,
       processing: true,
       ajax: (dataTableParameters: any, callback) => {
@@ -38,6 +39,7 @@ export class BookComponent implements OnInit {
         })
       },
       columns: [
+        { data: "", name: "Id", sortable: false, searchable: false, render: function(data, type, full, meta) { return '<img src="https://img.icons8.com/ios/50/000000/book.png"/>'; } },
         { data: "title", name: "Title" },
         { data: "description", name: "Description" },
         { data: "publishDate", name: "Publish Date", searchable: false, ngPipeInstance : this.datePipe },

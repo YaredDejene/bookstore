@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthorModel } from '../models/author.model';
 import { BookHistoryModel } from '../models/book-history.model';
@@ -21,29 +21,32 @@ export class BookDetailComponent implements OnInit {
   form: FormGroup;
   submitted = false;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder,private ref: ChangeDetectorRef, private bookService: BookService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private ref: ChangeDetectorRef, private formBuilder: FormBuilder, private bookService: BookService) { }
+
+  ngOnInit(): void {
+    this.initForm();
+    this.getBook();
+  }
 
   ngAfterContentChecked(): void {
     this.ref.detectChanges();
   }
 
-  ngOnInit(): void {
-
-    this.initForm();
-    this.getBook();
-  }
-
-  removeAuthor(author: AuthorModel):void {
+  removeAuthor(author: AuthorModel): void {
     this.book.authorsList = this.book.authorsList.filter(item => item.name != author.name);
   }
 
-  addAuthor():void {
+  addAuthor(): void {
     const newAuthor = new AuthorModel("");
     this.book.authorsList.push(newAuthor);
   }
 
-  clearForm(): void {
-    this.reset();
+  addNew(): void {
+    this.reloadCurrentRoute("null");
+  }
+
+  backToList(): void {
+    this.router.navigate(["books"]);
   }
 
   onSubmit(): void {
@@ -52,13 +55,16 @@ export class BookDetailComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.form.invalid) {
-        return;
+      return;
     }
 
     this.book.authors = this.book.authorsList.map(a => a.name).join(",");
 
     this.bookService.saveBook(this.book, this.isEdit).subscribe(result => {
-      alert("Book information saved");      
+      if (result && result.isValid && result.data) {
+        alert("Book information saved");
+        this.reloadCurrentRoute(result.data.id);
+      }
     });
   }
 
@@ -70,7 +76,7 @@ export class BookDetailComponent implements OnInit {
     this.form.markAsPristine();
     this.form.markAsUntouched();
     this.form.updateValueAndValidity();
-}
+  }
 
   private getBook(): void {
 
@@ -93,7 +99,8 @@ export class BookDetailComponent implements OnInit {
   private getBookHistory(bookId: string): void {
     this.dtOptions = {
       pagingType: "simple_numbers",
-      pageLength: 5,
+      lengthMenu: [5, 10, 25, 50, 100],
+      pageLength: 10,
       serverSide: true,
       processing: true,
       ajax: (dataTableParameters: any, callback) => {
@@ -121,6 +128,13 @@ export class BookDetailComponent implements OnInit {
       description: [null, Validators.required],
       publishDate: [null, Validators.required],
       authors: [null, null],
+    });
+  }
+
+  private reloadCurrentRoute(bookId: string) {
+    const currentUrl = `books/detail/${bookId}`;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
 

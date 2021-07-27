@@ -31,7 +31,12 @@ namespace BookStore.Domain.Commands
 
             _bookRepository.Add(book);
 
-            return await Commit(_bookRepository.UnitOfWork);
+            await Commit(_bookRepository.UnitOfWork);
+
+            BookValidationResult result = new BookValidationResult();
+            result.Data = book;
+
+            return result;
         }
 
         public async Task<ValidationResult> Handle(UpdateBookCommand  message, CancellationToken cancellationToken)
@@ -44,7 +49,12 @@ namespace BookStore.Domain.Commands
 
             _bookRepository.Update(book);
 
-            return await Commit(_bookRepository.UnitOfWork);
+            await Commit(_bookRepository.UnitOfWork);
+
+            BookValidationResult result = new BookValidationResult();
+            result.Data = book;
+
+            return result;
         }
 
         public async Task<ValidationResult> Handle(RemoveBookCommand  message, CancellationToken cancellationToken)
@@ -62,7 +72,12 @@ namespace BookStore.Domain.Commands
 
             _bookRepository.Remove(book);
 
-            return await Commit(_bookRepository.UnitOfWork);
+            await Commit(_bookRepository.UnitOfWork);
+
+            BookValidationResult result = new BookValidationResult();
+            result.Data = book;
+
+            return result;
         }
     }
 }

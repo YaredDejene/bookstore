@@ -35,19 +35,19 @@ namespace BookStore.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookModel bookModel)
         {
-            return Ok(!ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Register(bookModel)));
+            return Ok(await _bookService.Register(bookModel));
         }
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BookModel bookModel)
         {
-            return Ok(!ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Update(bookModel)));
+            return Ok(await _bookService.Update(bookModel));
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return Ok(!ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.Remove(id)));
+            return Ok(await _bookService.Remove(id));
         }
 
         [HttpPost]
