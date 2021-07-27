@@ -31,9 +31,9 @@ import { ApiService } from "./api.service";
       return this.get(id);
     }
 
-    public saveBook(book: BookModel, isEdit:boolean = false){
+    public saveBook(book: BookModel, isEdit:boolean = false): Observable<any>{
       if(isEdit){
-        return this.put(book.id, book);
+        return this.put(book);
       }
       return this.post(book);
     }

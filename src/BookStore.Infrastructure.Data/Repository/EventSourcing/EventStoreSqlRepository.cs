@@ -20,21 +20,9 @@ namespace BookStore.Infrastructure.Data.Repository.EventSourcing
         }
         public async Task<IEnumerable<StoredEvent>> All(Guid aggregateId)
         {
-            return await GetQuery(s => s.AggregateId == aggregateId, null).ToListAsync();
-        }
-
-        public async Task<IEnumerable<StoredEvent>> All(int start, int pageSize, Expression<Func<StoredEvent, bool>> filter = null, 
-                                                    Func<IQueryable<StoredEvent>, IOrderedQueryable<StoredEvent>> orderBy = null)
-        {
-            return await GetQuery(filter, orderBy).Skip(start).Take(pageSize).ToListAsync();
-        }
-
-        public async Task<int> Count(Expression<Func<StoredEvent, bool>> filter = null)
-        {
-            return await GetQuery(filter, null).CountAsync();
+            return await _context.StoredEvents.Where(s => s.AggregateId == aggregateId).ToListAsync();
         }
         
-
         public void Store(StoredEvent theEvent)
         {
             _context.StoredEvents.Add(theEvent);
@@ -44,23 +32,6 @@ namespace BookStore.Infrastructure.Data.Repository.EventSourcing
         public void Dispose()
         {
             _context.Dispose();
-        }
-
-        private IQueryable<StoredEvent> GetQuery(Expression<Func<StoredEvent, bool>> filter, Func<IQueryable<StoredEvent>, IOrderedQueryable<StoredEvent>> orderBy)
-        {
-            var query = _context.StoredEvents.AsQueryable();
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (orderBy != null)
-            {
-                query = orderBy(query);
-            }
-
-            return query;
         }
     }
 }

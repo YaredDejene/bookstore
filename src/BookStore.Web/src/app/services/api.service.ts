@@ -29,7 +29,7 @@ constructor(
 
     public post = (entity: any): Observable<any> => this.http.post(this.buildUrl(), entity);
 
-    public put = (id: string, entity: any): Observable<any> => this.http.put(this.buildUrl(id), entity);
+    public put = (entity: any): Observable<any> => this.http.put(this.buildUrl(), entity);
 
     public delete = (id: string): Observable<any> => this.http.delete(this.buildUrl(id));
 

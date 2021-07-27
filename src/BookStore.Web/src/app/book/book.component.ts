@@ -9,8 +9,7 @@ declare var $: any;
 
 @Component({
   selector: 'app-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.scss']
+  templateUrl: './book.component.html'
 })
 export class BookComponent implements OnInit {
 
@@ -45,6 +44,13 @@ export class BookComponent implements OnInit {
         { data: "authors", name: "Authors", sortable: true, searchable: false },
       ],
       dom: '<fB<t>ip>',
+      buttons : [
+        {
+          text: "Add Book",
+          className: "btn btn-primary",
+          action: this.onAddBook
+        }
+      ],
       rowCallback: (row: Node, data: BookModel, index: number) => {
         const self = this;
         $('td', row).off('click');
@@ -57,12 +63,16 @@ export class BookComponent implements OnInit {
     };
   }
 
-  public onRowClick(book: BookModel) {
-    this.router.navigate([`/history/${book.id}`]);
+  public onRowClick(book: BookModel): void {
+    this.router.navigate([`books/detail/${book.id}`]);
+  }
+
+  public onAddBook(e, dt, node, config): void {
+    var url = node[0].formAction + '/detail/null'
+    window.location.replace(url)
   }
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
-
 }

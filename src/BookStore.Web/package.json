@@ -28,7 +28,8 @@
     "datatables.net": "^1.10.24",
     "datatables.net-buttons": "^1.7.0",
     "datatables.net-buttons-dt": "^1.7.0",
-    "datatables.net-dt": "^1.10.24"
+    "datatables.net-dt": "^1.10.24",
+    "font-awesome": "^4.7.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.10",

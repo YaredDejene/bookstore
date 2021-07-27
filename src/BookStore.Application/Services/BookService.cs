@@ -84,20 +84,30 @@ namespace BookStore.Application.Services
         {
             return BookHistory.ToBookHistory(await _eventStoreRepository.All(id));
         }
+
         public async Task<DataTableResponse<BookHistoryData>> GetAllHistory(DataTableRequest request)
         {
             if(request.Data == null ) return null;
 
             var aggregateId = new System.Guid(request.Data);
-            string search = request.Search?.Value?.ToLower();
+            string search = request.Search?.Value?.ToLower();         
+        
+            var historyData = BookHistory.ToBookHistory(await _eventStoreRepository.All(aggregateId));
+            IQueryable<BookHistoryData> filteredData = historyData.AsQueryable();
             
-            Expression<Func<StoredEvent, bool>> expression = (m => m.AggregateId == aggregateId && (m.Data.ToLower().Contains(search) || m.MessageType.ToLower().Contains(search)));
-            Func<IQueryable<StoredEvent>, IOrderedQueryable<StoredEvent>> orderBy = null;
+            if(!string.IsNullOrEmpty(search)) {
+                Expression<Func<BookHistoryData, bool>> expression = ( m => (m.Action.ToLower().Contains(search) || m.Description.ToLower().Contains(search)));
+                filteredData = filteredData.Where(expression);
+            }
 
-            var totalRecords = string.IsNullOrEmpty(search) ? await _eventStoreRepository.Count() : await _eventStoreRepository.Count(expression);
-            var historyData = BookHistory.ToBookHistory(await _eventStoreRepository.All(request.Start, request.Length, expression, orderBy));
+            if(!string.IsNullOrEmpty(request.Sort)) {
+                Func<IQueryable<BookHistoryData>, IOrderedQueryable<BookHistoryData>> orderBy = OrderBy<BookHistoryData>.GetOrderBy(request.Sort, request.IsDescending);
+                filteredData = orderBy(filteredData);            
+            }
+ 
+            var totalRecords = string.IsNullOrEmpty(search) ? historyData.Count() : filteredData.Count();
 
-            var response = new DataTableResponse<BookHistoryData>(request.Draw, totalRecords, totalRecords, historyData.ToList(), null);
+            var response = new DataTableResponse<BookHistoryData>(request.Draw, totalRecords, totalRecords, filteredData.ToList(), null);
             return response;
         }
 

@@ -1,1 +1,127 @@
-<p>book-detail works!</p>
+<div class="book-detail-container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row bordered">
+        <div class="col-md-12">
+          <h5>Book Information</h5>
+          <form [formGroup]="form">
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="book.title"
+                formControlName="title"
+                [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                class="form-control textarea"
+                [(ngModel)]="book.description"
+                formControlName="description"
+                [ngClass]="{
+                  'is-invalid': submitted && f.description.errors
+                }"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Publish Date</label>
+              <input
+                type="date"
+                class="form-control"
+                [ngModel]="book.publishDate|date:'yyyy-MM-dd'"
+                (ngModelChange)=" book.publishDate = $event"
+                formControlName="publishDate"
+                [ngClass]="{
+                  'is-invalid': submitted && f.publishDate.errors
+                }"
+              />
+            </div>
+
+            <div class="form-group">                 
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 80%; font-weight: normal;">Author</th>
+                    <th style="width: 20%">
+                      <button
+                      class="btn btn-primary btn-icon btn-sm pull-right"
+                      title="Add Author"
+                      (click)="addAuthor()"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let author of book.authorsList">
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="author.name"
+                        [ngModelOptions]="{ standalone: true }"
+                      />
+                    </td>
+                    <td>
+                      <button
+                      class="btn btn-danger btn-icon btn-sm pull-right"
+                      title="Add Author"
+                      (click)="removeAuthor(author)"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+        
+        <div class="col-md-12">
+          <!-- <button            
+            class="btn btn-outline-primary btn-round"
+            (click)="clearForm()"
+          >
+            Clear
+          </button> -->
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-round pull-right"
+            (click)="onSubmit()"
+          >
+            Save 
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="bordered">
+        <div class="table-responsive">
+          <h5>History</h5>
+          <table
+            datatable
+            class="table"
+            [dtOptions]="dtOptions"
+          >
+            <thead class="text-primary">
+              <tr>
+                <th>Action</th>
+                <th>Description</th>
+                <th>Timestamp</th>
+                <th>User</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

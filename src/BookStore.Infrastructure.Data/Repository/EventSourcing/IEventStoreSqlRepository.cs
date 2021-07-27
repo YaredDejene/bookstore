@@ -12,11 +12,5 @@ namespace BookStore.Infrastructure.Data.Repository.EventSourcing
     {
         void Store(StoredEvent theEvent);
         Task<IEnumerable<StoredEvent>> All(Guid aggregateId);
-
-        Task<IEnumerable<StoredEvent>> All(int start, int pageSize, Expression<Func<StoredEvent, bool>> filter = null, 
-                                                    Func<IQueryable<StoredEvent>, IOrderedQueryable<StoredEvent>> orderBy = null);
-
-        Task<int> Count(Expression<Func<StoredEvent, bool>> filter = null);
-
     }
 }

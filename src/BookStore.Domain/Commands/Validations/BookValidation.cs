@@ -15,13 +15,13 @@ namespace BookStore.Domain.Commands.Validations
         protected void ValidateDescription()
         {
             RuleFor(book => book.Description)
-                .Length(10, 250).WithMessage("The Title must have between 10 and 1000 characters");
+                .Length(10, 1000).WithMessage("The Title must have between 10 and 1000 characters");
         }
 
         protected void ValidateAuthors()
         {
             RuleFor(book => book.Authors)
-                .Length(10, 250).WithMessage("The Authors must have between 2 and 250 characters");
+                .Length(2, 250).WithMessage("The Authors must have between 2 and 250 characters");
         }
 
         protected void ValidateId()
