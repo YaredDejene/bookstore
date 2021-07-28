@@ -27,13 +27,13 @@ A simple bookstore web app that has a web front-end in Angular with a backend co
 
 ## Screenshots
 ### API documentation using Swagger
-![screenshot](./assets/api.png)
+![screenshot](./assets/api.PNG)
 
 ### Book list page
-![screenshot](./assets/book-list.png)
+![screenshot](./assets/book-list.PNG)
 
 ### Book detail information and history page
-![screenshot](./assets/book-detail-history.png)
+![screenshot](./assets/book-detail-history.PNG)
 
 ## Suggestion for improvement
 - Grouping of book changes history by certain parameters
