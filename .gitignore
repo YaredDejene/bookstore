@@ -13,3 +13,4 @@ src/BookStore.Application/bin/*
 src/BookStore.API/obj/*
 src/BookStore.API/bin/*
 .vscode/*
+.vs/*
