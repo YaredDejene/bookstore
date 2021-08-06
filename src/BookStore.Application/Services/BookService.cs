@@ -16,6 +16,7 @@ using BookStore.Domain.Core.Events;
 using BookStore.Infrastructure.Data.Repository.EventSourcing;
 using FluentValidation.Results;
 using NetDevPack.Mediator;
+using BookStore.Domain.Queries;
 
 namespace BookStore.Application.Services
 {
@@ -39,7 +40,8 @@ namespace BookStore.Application.Services
 
         public async Task<IEnumerable<BookModel>> GetAll()
         {
-            return _mapper.Map<IEnumerable<BookModel>>(await _bookRepository.GetAll());
+            var result = (BookValidationResult)(await _mediator.SendCommand(new GetAllBooksQuery()));
+            return _mapper.Map<IEnumerable<BookModel>>(result.Data);
         }
 
         public async Task<DataTableResponse<BookModel>> GetAll(DataTableRequest request)
@@ -59,7 +61,8 @@ namespace BookStore.Application.Services
 
         public async Task<BookModel> GetById(Guid id)
         {
-            return _mapper.Map<BookModel>(await _bookRepository.GetById(id));
+            var result = (BookValidationResult)(await _mediator.SendCommand(new GetBookByIdQuery() {Id = id}));
+            return _mapper.Map<BookModel>(result.Data);
         }
 
         public async Task<ValidationResult> Register(BookModel bookViewModel)
@@ -111,10 +114,5 @@ namespace BookStore.Application.Services
             return response;
         }
 
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
     }
 }

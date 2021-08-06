@@ -8,7 +8,7 @@ using FluentValidation.Results;
 
 namespace BookStore.Application.Interfaces
 {
-    public interface IBookService : IDisposable
+    public interface IBookService
     {
         Task<IEnumerable<BookModel>> GetAll();
         Task<DataTableResponse<BookModel>> GetAll(DataTableRequest request);

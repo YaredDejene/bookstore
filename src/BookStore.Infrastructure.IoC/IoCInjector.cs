@@ -13,6 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.Results;
 using MediatR;
 using NetDevPack.Mediator;
+using BookStore.Domain.Queries;
+using System.Collections.Generic;
+using BookStore.Domain.Models;
 
 namespace BookStore.Infrastructure.IoC
 {
@@ -35,6 +38,10 @@ namespace BookStore.Infrastructure.IoC
             services.AddScoped<IRequestHandler<RegisterNewBookCommand, ValidationResult>, BookCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateBookCommand, ValidationResult>, BookCommandHandler>();
             services.AddScoped<IRequestHandler<RemoveBookCommand, ValidationResult>, BookCommandHandler>();
+            
+            // Domain - Queries
+            services.AddScoped<IRequestHandler<GetAllBooksQuery, ValidationResult>, BookQueryHandler>();
+            services.AddScoped<IRequestHandler<GetBookByIdQuery, ValidationResult>, BookQueryHandler>();
 
             // Infra - Data
             services.AddScoped<IBookRepository, BookRepository>();
